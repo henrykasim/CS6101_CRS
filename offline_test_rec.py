@@ -176,7 +176,7 @@ def rec_test(test_model_path = None):
     return mean_att_auc, mean_item_auc, mean_att_auc_2, mean_item_auc_2
 
 #model_name = "iter60-2020-06-09"
-model_name = "iter9-2021-03-27"
+model_name = "iter9-2021-04-06"
 rec.load_model(model_name, False)
 rec.init_eval(adj_index)
 with torch.no_grad():

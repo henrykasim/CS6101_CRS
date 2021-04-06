@@ -105,6 +105,12 @@ att_optimizer = optim.Adam([param for param in rec.rec.parameters() if param.req
                         lr=att_lr, weight_decay = weight_decay)
 
 
+# Add helpful logging
+import wandb
+wandb.init(project='CS6101_CRS',
+           name=f'{datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}')
+
+
 def train_one_epoch(epoch_num):
     rec.init_train()
     train_loader = build_item_att_loader(train_info_path, user_info, item_info, att_tree_dict, \
@@ -172,6 +178,14 @@ def train_one_epoch(epoch_num):
 
         epoch_count += 1
         print("{} step item loss: {} att loss: {}".format(str(epoch_count), str(item_loss_float), str(att_loss_float)))
+
+        # Logging.
+        loss = {}
+        loss['trn/item_loss1'] = item_loss1
+        loss['trn/item_loss2'] = item_loss2
+        loss['trn/item_loss'] = item_loss
+        loss['trn/att_loss'] = att_loss
+        wandb.log(loss)
 
     time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     epoch_item_loss = epoch_item_loss_sum / epoch_count
@@ -272,6 +286,15 @@ def rec_test(test_model_path = None):
     print("---------test-----------")
     print("att_auc: {}, item_auc: {}".format(str(mean_att_auc), str(mean_item_auc)))
     print("with item neg: att_auc: {}, item_auc: {}".format(str(mean_att_auc_2), str(mean_item_auc_2)))
+
+    # Logging.
+    loss = {}
+    loss['test/mean_att_auc'] = mean_att_auc
+    loss['test/mean_item_auc'] = mean_item_auc
+    loss['test/mean_att_auc_2'] = mean_att_auc_2
+    loss['test/mean_item_auc_2'] = mean_item_auc_2
+    wandb.log(loss)
+
     return mean_att_auc, mean_item_auc, mean_att_auc_2, mean_item_auc_2
 
 

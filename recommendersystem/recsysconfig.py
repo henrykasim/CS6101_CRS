@@ -13,7 +13,7 @@ class recsysconfig():
         self.attribute_num = 33
         self.parent_attribute_num = 33
         self.nlayer = 2
-        self.conv_name = 'gcn' #'sage' # 'sage', 'gcn', 'gat'
+        self.conv_name = 'gat' #'sage' # 'sage', 'gcn', 'gat', !'gen', 'trans'
         self.n_heads = 1
         self.drop = 0.1
         self.max_rec_item_num = 10
